@@ -1,11 +1,10 @@
 import pandas as pd
-from params import lyrics_model_valence_path, lyrics_model_arousal_path, lyrics_scaler_path, pred_lyrics_features_path
+from params import lyrics_model_path, lyrics_scaler_path, pred_lyrics_features_path
 import joblib
 
 
 def predict_lyrics():
-    svr_valence = joblib.load(lyrics_model_valence_path)
-    svr_arousal = joblib.load(lyrics_model_arousal_path)
+    svr_model = joblib.load(lyrics_model_path)
     scaler = joblib.load(lyrics_scaler_path)
 
     data = pd.read_csv(pred_lyrics_features_path)
@@ -14,10 +13,10 @@ def predict_lyrics():
 
     X_new = scaler.transform(data)
 
-    valence_pred = svr_valence.predict(X_new)
-    arousal_pred = svr_arousal.predict(X_new)
+    test = svr_model.predict(X_new)
+    test = test[0]
 
     # print(f'Predicted Valence: {valence_pred[0]:.3f}')
     # print(f'Predicted Arousal: {arousal_pred[0]:.3f}')
 
-    return [valence_pred[0], arousal_pred[0]]
+    return [test[0], test[1]]

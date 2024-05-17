@@ -9,6 +9,7 @@ import torchvision.transforms as transforms
 
 torch.cuda.empty_cache()
 
+
 class MelSpectrogramDataset(Dataset):
     def __init__(self, annotations_file, img_dir, transform=None):
         self.annotations = pd.read_csv(annotations_file)
@@ -28,13 +29,11 @@ class MelSpectrogramDataset(Dataset):
         return image, torch.tensor([valence, arousal], dtype=torch.float32)
 
 
-# Define the transformation
 transform = transforms.Compose([
     transforms.Resize((400, 1000)),  # Resize to match the expected input size
     transforms.ToTensor()
 ])
 
-# Dataset and DataLoader
 dataset = MelSpectrogramDataset(
     annotations_file="dataset/pmemo_annotations_normalized.csv",
     img_dir="dataset/mel_spectrograms",
@@ -42,16 +41,12 @@ dataset = MelSpectrogramDataset(
 )
 dataloader = DataLoader(dataset, batch_size=8, shuffle=True)
 
-# Load the pretrained ConvNeXt model
 model = timm.create_model('convnext_base', pretrained=True, num_classes=2)
-
-# Loss function and optimizer
-criterion = nn.MSELoss()
-optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
-
-# Move the model to the GPU
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 model.to(device)
+
+criterion = nn.MSELoss()
+optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
 
 # Training loop
 num_epochs = 10

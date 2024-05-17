@@ -6,14 +6,11 @@ def normalize_value(value):
 
 
 def normalize_dataset(input_csv_path, output_csv_path):
-    # Load the dataset
     df = pd.read_csv(input_csv_path)
 
-    # Select and rename the necessary columns
     selected_columns = ["musicId", "Valence(mean)", "Arousal(mean)"]
     df = df[selected_columns]
 
-    # Normalize the values in the mean columns
     df["Valence(mean)"] = df["Valence(mean)"].apply(normalize_value)
     df["Arousal(mean)"] = df["Arousal(mean)"].apply(normalize_value)
 

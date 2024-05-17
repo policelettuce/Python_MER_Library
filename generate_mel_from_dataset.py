@@ -4,6 +4,7 @@ import librosa.display
 import matplotlib.pyplot as plt
 import numpy as np
 
+
 def save_mel_spectrogram(audio_path, output_image_path, n_mels=128, fmax=8000):
     try:
         y, sr = librosa.load(audio_path, sr=None)
@@ -20,6 +21,7 @@ def save_mel_spectrogram(audio_path, output_image_path, n_mels=128, fmax=8000):
         print(f"Saved {output_image_path}")
     except Exception as e:
         print(f"Error processing {audio_path}: {e}")
+
 
 def process_audio_files(input_dir, output_dir):
     os.makedirs(output_dir, exist_ok=True)
