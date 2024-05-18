@@ -5,7 +5,9 @@ from wrapper_preprocess_lyrics import get_lyrics
 from wrapper_get_labels_from_emotion_space import get_labels
 
 
-def predict(audiofile_path, artist_name=None, track_title=None, lyrics_score_weight=None, do_not_analyze_lyrics=False):
+def predict(audiofile_path, artist_name=None, track_title=None, lyrics_score_weight=0.5, do_not_analyze_lyrics=False):
+    if lyrics_score_weight > 1 or lyrics_score_weight < 0:
+        raise ValueError("Please, provide valid lyrics_score_weight in range [0, 1].")
     preprocess_audio(audiofile_path)
     audio_va_score = predict_audio()
     valence_audio = audio_va_score[0][0]
@@ -26,8 +28,7 @@ def predict(audiofile_path, artist_name=None, track_title=None, lyrics_score_wei
             valence_lyrics, arousal_lyrics = predict_lyrics()
 
         # Check if weights are provided, if not - set default
-        if lyrics_score_weight is None:
-            lyrics_score_weight = 0.5
+        if lyrics_score_weight == 0.5:
             audio_score_weight = 0.5
         else:
             audio_score_weight = 1 - lyrics_score_weight
@@ -45,9 +46,9 @@ def predict(audiofile_path, artist_name=None, track_title=None, lyrics_score_wei
 
 
 if __name__ == '__main__':
-    audio_path = "benjamin.mp3"
-    artist = "Kanye West"
-    title = "On Sight"
+    audio_path = "test_songs/white_iverson.mp3"
+    artist = "Post Malone"
+    title = "White Iverson"
 
-    labels = predict(audiofile_path=audio_path, artist_name=artist, track_title=title, do_not_analyze_lyrics=True)
+    labels = predict(audiofile_path=audio_path, artist_name=artist, track_title=title, lyrics_score_weight=0.5)
     print(f"Resulting labels are: {labels}")
