@@ -13,10 +13,10 @@ def predict_lyrics():
 
     X_new = scaler.transform(data)
 
-    test = svr_model.predict(X_new)
-    test = test[0]
+    pred = svr_model.predict(X_new)
+    pred = pred[0]
 
     # print(f'Predicted Valence: {valence_pred[0]:.3f}')
     # print(f'Predicted Arousal: {arousal_pred[0]:.3f}')
 
-    return [test[0], test[1]]
+    return [pred[0], pred[1]]

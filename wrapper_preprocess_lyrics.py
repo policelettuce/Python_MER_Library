@@ -12,13 +12,10 @@ def clear_lyrics(text: str):
     if len(lines) > 1:
         text = lines[1]
 
-    # Remove any text in brackets
     text = re.sub(r'\[.*?\]', '', text)
 
-    # Remove any trailing text resembling 'Embed'
     text = re.sub(r'\d+Embed$', '', text, flags=re.MULTILINE)
 
-    # Strip excess whitespace, replace multiple newlines with a single newline
     text = re.sub(r'\n\s*\n', '\n', text)
     text = text.strip()
 
@@ -26,7 +23,7 @@ def clear_lyrics(text: str):
 
 
 def get_lyrics(artist, title):
-    gen = Genius('7K-nH_pWWuZC2S-EEpbj8kSoEfIqoM8UOo8KC_owajt0chBSC7uDwJxVgF_b58Wo')
+    gen = Genius('7K-nH_pWWuZC2S-EEpbj8k_policelettuce_Oo8KC_owajt0chBSC7uDwJxVgF_b58Wo')
     # Try to search for lyrics by user's input, if lyrics not found - skip lyrics prediction
     try:
         text = gen.search_song(artist=artist, title=title, get_full_info=True).lyrics
